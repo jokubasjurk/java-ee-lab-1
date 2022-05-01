@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head/>
+<h:body>
+    <h2>Author #{authorsDetails.author.name}:</h2>
+    <h3>Author's contact info: #{
+            authorsDetails.author.contactInfo != null
+                    ? authorsDetails.author.contactInfo.toString()
+                    : "Not filled yet!"
+            }</h3>
+    <h:form>
+        <h:inputText a:placeholder="country" value="#{authorsDetails.contactInfoToCreate.country}" required="true"/>
+        <h:inputText a:placeholder="city" value="#{authorsDetails.contactInfoToCreate.city}" required="true"/>
+        <h:inputText a:placeholder="apartmentNo" value="#{authorsDetails.contactInfoToCreate.apartmentNo}"
+                     required="true"/>
+        <h:inputText a:placeholder="street" value="#{authorsDetails.contactInfoToCreate.street}" required="true"/>
+        <h:commandButton value="Add contact info for author" action="#{authorsDetails.createContactInfo}">
+            <f:param name="authorId" value="#{authorsDetails.author.id}"/>
+        </h:commandButton>
+        <h:outputText value="Author already has filled contact info"
+                      rendered="#{param['error'] == 'author-contact-info-exists-exception'}"/>
+    </h:form>
+
+    <h:form>
+        <h2>All author's posts:</h2>
+        <ui:repeat value="#{authorsDetails.author.posts}" var="post">
+            <li>
+                <h:link value="#{post.title}" outcome="postDetails?postId=#{post.id}"/>
+            </li>
+        </ui:repeat>
+        <ol>
+        </ol>
+    </h:form>
+    <h:form>
+        <h2>All available posts:</h2>
+        <h:selectOneMenu value="#{posts.postIdToSet}">
+            <f:selectItems value="#{posts.allPosts}"/>
+        </h:selectOneMenu>
+        <h:commandButton value="Add post to the author " action="#{posts.addPostToAuthor}">
+            <f:param name="authorId" value="#{authorsDetails.author.id}"/>
+        </h:commandButton>
+    </h:form>
+    <h:form>
+        <h:inputText a:placeholder="name" value="#{postsForAuthor.postToCreate.title}" required="true"/>
+        <h:commandButton value="Add new post " action="#{postsForAuthor.createPost}">
+            <f:param name="authorId" value="#{authorsDetails.author.id}"/>
+        </h:commandButton>
+    </h:form>
+    <h:link outcome="index" value="Back to authors page"/>
+</h:body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+<h:head/>
+<h:body>
+    <h2>#{updatePostDetails.post.title}</h2>
+    <h:form>
+        <h2>All post's comments:</h2>
+        <ol>
+            <ui:repeat value="#{updatePostDetails.post.comments}" var="comment">
+                <li>
+                    <h2>#{comment.name} #{comment.text}</h2>
+                </li>
+            </ui:repeat>
+        </ol>
+    </h:form>
+    <h:form>
+        <h:inputText a:placeholder="name" value="#{commentsForPost.commentsToCreate.name}" required="true"/>
+        <h:inputText a:placeholder="text" value="#{commentsForPost.commentsToCreate.text}" required="true"/>
+        <h:commandButton value="Add new comment " action="#{commentsForPost.createComment}">
+            <f:param name="postId" value="#{updatePostDetails.post.id}"/>
+        </h:commandButton>
+    </h:form>
+    <h:link outcome="index" value="Back to home page"/>
+</h:body>
+</html>

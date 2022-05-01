@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head/>
+<h:body>
+    <h2>Comments for #{commentsForPost.post.title} post:</h2>
+    <ol>
+        <ui:repeat value="#{commentsForPost.post.comments}" var="comment">
+            <li>#{comment.name} #{comment.text}</li>
+        </ui:repeat>
+    </ol>
+    <h:form>
+        <h:inputText a:placeholder="name" value="#{commentsForPost.commentsToCreate.name}" required="true" />
+        <h:commandButton value="Add comment to the post" action="#{commentsForPost.createComment}" >
+            <f:param name="postId" value="#{commentsForPost.post.id}" />
+        </h:commandButton>
+    </h:form>
+    <h:link outcome="/myBatis/posts" value="Back to posts page"/>
+</h:body>
+</html>
