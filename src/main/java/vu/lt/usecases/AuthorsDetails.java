@@ -13,6 +13,7 @@ import vu.lt.entities.Author;
 import vu.lt.entities.ContactInfo;
 import vu.lt.persistence.AuthorsDAO;
 import vu.lt.persistence.ContactInfoDAO;
+import vu.lt.services.validator.ContactInfoValidator;
 
 @Model
 public class AuthorsDetails {
@@ -20,6 +21,9 @@ public class AuthorsDetails {
     private AuthorsDAO authorsDAO;
     @Inject
     private ContactInfoDAO contactInfoDAO;
+
+    @Inject
+    private ContactInfoValidator contactInfoValidator;
 
     @Setter @Getter
     private ContactInfo contactInfoToCreate = new ContactInfo();
@@ -41,6 +45,11 @@ public class AuthorsDetails {
         if (author.getContactInfo() != null) {
             return "/authors.xhtml?faces-redirect=true&authorId=" + author.getId() + "&error=author-contact-info-exists-exception";
         } else {
+            try {
+                contactInfoValidator.validate(contactInfoToCreate);
+            } catch (IllegalArgumentException e) {
+                return "authors.xhtml?authorId=" + author.getId() + "&faces-redirect=true" + "&error=invalid-contact-info-exception";
+            }
             contactInfoToCreate.setAuthor(author);
             contactInfoDAO.persist(contactInfoToCreate);
             return "authors.xhtml?authorId=" + author.getId() + "&faces-redirect=true";

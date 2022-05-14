@@ -24,6 +24,7 @@
         </h:commandButton>
         <h:outputText value="Author already has filled contact info"
                       rendered="#{param['error'] == 'author-contact-info-exists-exception'}"/>
+        <h:outputText value="Invalid contact info entered!" rendered="#{param['error'] == 'invalid-contact-info-exception'}" />
     </h:form>
 
     <h:form>
