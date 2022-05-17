@@ -64,15 +64,11 @@ public class PostsController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response create(PostDto postData) {
-        try {
-            Post newPost = new Post();
-            newPost.setText(postData.getText());
-            newPost.setText(postData.getTitle());
-            newPost.setAuthors(postData.getAuthors());
-            postsDAO.persist(newPost);
-            return Response.ok().build();
-        } catch (OptimisticLockException var4) {
-            return Response.status(Status.CONFLICT).build();
-        }
+        Post newPost = new Post();
+        newPost.setText(postData.getText());
+        newPost.setText(postData.getTitle());
+        newPost.setAuthors(postData.getAuthors());
+        postsDAO.persist(newPost);
+        return Response.ok().build();
     }
 }
