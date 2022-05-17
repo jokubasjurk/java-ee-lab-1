@@ -23,13 +23,8 @@ import javax.persistence.Version;
 import javax.validation.constraints.Size;
 
 @Entity
-@NamedQueries({@NamedQuery(
-        name = "Post.findAll",
-        query = "select p from Post as p"
-)})
-@Table(
-        name = "POST"
-)
+@NamedQueries({@NamedQuery(name = "Post.findAll", query = "select p from Post as p")})
+@Table(name = "POST")
 @Getter @Setter
 public class Post implements Serializable {
     @Id
@@ -44,6 +39,11 @@ public class Post implements Serializable {
             name = "TITLE"
     )
     private String title;
+
+    @Size(max = 50)
+    @Column(name = "RATING")
+    private String rating;
+
     @Size(
             max = 1000
     )

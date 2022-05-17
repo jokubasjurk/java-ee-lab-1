@@ -12,7 +12,7 @@ import lombok.Setter;
 import vu.lt.entities.Author;
 import vu.lt.entities.ContactInfo;
 import vu.lt.persistence.AuthorsDAO;
-import vu.lt.persistence.ContactInfoDAO;
+import vu.lt.services.author.ContactInfoServiceImpl;
 import vu.lt.services.validator.ContactInfoValidator;
 
 @Model
@@ -20,14 +20,16 @@ public class AuthorsDetails {
     @Inject
     private AuthorsDAO authorsDAO;
     @Inject
-    private ContactInfoDAO contactInfoDAO;
+    private ContactInfoServiceImpl contactInfoService;
 
     @Inject
     private ContactInfoValidator contactInfoValidator;
 
-    @Setter @Getter
+    @Setter
+    @Getter
     private ContactInfo contactInfoToCreate = new ContactInfo();
-    @Setter @Getter
+    @Setter
+    @Getter
     private Author author;
 
     public AuthorsDetails() {
@@ -36,7 +38,7 @@ public class AuthorsDetails {
     @PostConstruct
     public void init() {
         Map<String, String> requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        Integer authorId = Integer.parseInt((String)requestParameters.get("authorId"));
+        Integer authorId = Integer.parseInt((String) requestParameters.get("authorId"));
         author = authorsDAO.findOne(authorId);
     }
 
@@ -50,8 +52,11 @@ public class AuthorsDetails {
             } catch (IllegalArgumentException e) {
                 return "authors.xhtml?authorId=" + author.getId() + "&faces-redirect=true" + "&error=invalid-contact-info-exception";
             }
-            contactInfoToCreate.setAuthor(author);
-            contactInfoDAO.persist(contactInfoToCreate);
+            try {
+                contactInfoService.createContactInfo(author, contactInfoToCreate);
+            } catch (IllegalArgumentException e) {
+                return "authors.xhtml?authorId=" + author.getId() + "&faces-redirect=true" + "&error=country-is-suspended-exception";
+            }
             return "authors.xhtml?authorId=" + author.getId() + "&faces-redirect=true";
         }
     }

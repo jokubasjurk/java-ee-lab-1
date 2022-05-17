@@ -44,4 +44,11 @@ public class CommentsForPost implements Serializable {
         commentsDAO.persist(commentsToCreate);
         return "postDetails?faces-redirect=true&postId=" + post.getId();
     }
+
+    @Transactional
+    @LoggedInvocation
+    public String addRating() {
+        postsDAO.update(post);
+        return "postDetails?faces-redirect=true&postId=" + post.getId();
+    }
 }

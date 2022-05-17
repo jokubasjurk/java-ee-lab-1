@@ -32,6 +32,12 @@
             <f:param name="postId" value="#{updatePostDetails.post.id}" />
         </h:commandButton>
     </h:form>
+    <h:form>
+        <h:inputText a:placeholder="rating" value="#{commentsForPost.post.rating}" required="true"/>
+        <h:commandButton value="Add rating " action="#{commentsForPost.addRating}">
+            <f:param name="postId" value="#{updatePostDetails.post.id}"/>
+        </h:commandButton>
+    </h:form>
     <h:link outcome="index" value="Back to home page"/>
 </h:body>
 </html>

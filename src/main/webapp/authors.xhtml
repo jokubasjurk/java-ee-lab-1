@@ -25,6 +25,7 @@
         <h:outputText value="Author already has filled contact info"
                       rendered="#{param['error'] == 'author-contact-info-exists-exception'}"/>
         <h:outputText value="Invalid contact info entered!" rendered="#{param['error'] == 'invalid-contact-info-exception'}" />
+        <h:outputText value="Our site has suspended operations with russian content creators!" rendered="#{param['error'] == 'country-is-suspended-exception'}" />
     </h:form>
 
     <h:form>

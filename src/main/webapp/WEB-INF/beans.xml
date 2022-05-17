@@ -12,4 +12,7 @@
     <alternatives>
         <class>vu.lt.services.generator.SimplePostSerialNumberGenerator</class>
     </alternatives>
+    <decorators>
+        <class>vu.lt.decorators.ContactInfoDecorator</class>
+    </decorators>
 </beans>
